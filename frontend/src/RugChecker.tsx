@@ -9,12 +9,27 @@ export interface RugCheckerRef {
 const RugChecker = forwardRef<RugCheckerRef, {}>((_, ref) => {
   const { publicKey, signMessage } = useWallet();
   const [connectedWallet, setConnectedWallet] = useState<boolean>(false);
-  const [result, setResult] = useState<string | null>(null);
+  const [result, setResult] = useState<Record<string, unknown>>({});
   const [loading, setLoading] = useState<boolean>(false);
 
   useImperativeHandle(ref, () => ({
     submit: async (mint: string) => {
-      console.log("Submit method called with mint:", mint);
+      try {
+        const response = await fetch(
+          `https://api.rugcheck.xyz/v1/tokens/${mint}/report/summary`
+        );
+        if (!response.ok) {
+          console.error("Failed to fetch data:", response.status);
+          return;
+        }
+
+        // Parse the JSON response
+        const data = await response.json();
+        // Update the state with the fetched data
+        setResult(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     },
   }));
 
@@ -86,18 +101,15 @@ const RugChecker = forwardRef<RugCheckerRef, {}>((_, ref) => {
   return (
     //todo hide wallet on connection
     <div>
-      {!connectedWallet ? (
-        <>
-          <button onClick={authoriseRugCheck} disabled={!publicKey || loading}>
-            {loading ? "Processing..." : "Connect wallet to use RugChecker"}
-          </button>
-          <WalletMultiButton />
-        </>
-      ) : result ? (
-        <p>Result: {result}</p>
-      ) : (
-        ""
-      )}
+      <button onClick={authoriseRugCheck} disabled={!publicKey || loading}>
+        {loading ? "Processing..." : "Connect wallet to use RugChecker"}
+      </button>
+      <WalletMultiButton />
+      {result
+        ? Object.values(result).length > 0 && (
+            <pre>{JSON.stringify(result, null, 2)}</pre> // Pretty print the JSON object
+          )
+        : ""}
     </div>
   );
 });

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import RugChecker, { RugCheckerRef } from "./RugCheck-login";
+import RugChecker, { RugCheckerRef } from "./RugChecker";
 
 type Website = {
   url: string;
@@ -20,7 +20,9 @@ type SocialsData = {
 const FormHandler: React.FC = () => {
   const [mint, setMint] = useState<string>(""); // Ensure mint is a string
   const [loading, setLoading] = useState<boolean>(false); // Tracks loading state
+  const [submitted, setSubmitted] = useState<boolean>(false); // Tracks submitted state
   const [bundleData, setBundleData] = useState<Record<string, unknown>>({});
+  // const [rugData, setRugData] = useState<Record<string, unknown>>({});
   const [socialsData, setSocialsData] = useState<SocialsData>({
     websites: [],
     socials: [],
@@ -43,6 +45,8 @@ const FormHandler: React.FC = () => {
   };
 
   const callBundleChecker = async (mint: string) => {
+    // TODO: Need to extract data for display
+
     const url = `https://trench.bot/api/bundle/bundle_advanced/${mint}`;
     try {
       const data = await fetch(url).then((data) => data.json());
@@ -104,13 +108,14 @@ const FormHandler: React.FC = () => {
       alert("Please enter a valid mint address.");
       return;
     }
-
+    setSubmitted(true);
     setLoading(true); // Start loading
     try {
       //Make api calls here
       callRugChecker(mint);
       // callBundleChecker(mint);
-      checkSocials(mint);
+      // TODO: needs to come from backend for cors
+      // checkSocials(mint);
     } catch (err) {
       console.log(err);
     }
@@ -134,20 +139,27 @@ const FormHandler: React.FC = () => {
         <button type="submit" disabled={loading}>
           {loading ? "Scanning..." : "Scan"}
         </button>
-        <RugChecker />
       </form>
-      <div className="bundlechecker">
-        {Object.keys(bundleData).length > 0 ? (
-          <pre>{JSON.stringify(bundleData, null, 2)}</pre> // Pretty print the JSON object
-        ) : (
-          <p>No bundle data available</p>
-        )}
-        ;
-      </div>
-      <div className="socialChecker">
-        {Object.values(socialsData).length > 0 && (
-          <pre>{JSON.stringify(socialsData, null, 2)}</pre> // Pretty print the JSON object
-        )}
+      <div className="data-body">
+        <RugChecker ref={rugCheckerRef} />
+        <div className="bundlechecker">
+          {Object.keys(bundleData).length > 0 ? (
+            <pre>{JSON.stringify(bundleData, null, 2)}</pre> // Pretty print the JSON object
+          ) : submitted ? (
+            <p>No bundle data available</p>
+          ) : (
+            ""
+          )}
+        </div>
+        <div className="socialChecker">
+          {socialsData.status.length > 0 ? (
+            <pre>{JSON.stringify(socialsData, null, 2)}</pre> // Pretty print the JSON object
+          ) : submitted ? (
+            <p>No social data available</p>
+          ) : (
+            ""
+          )}
+        </div>
       </div>
     </>
   );
