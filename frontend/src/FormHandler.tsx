@@ -60,22 +60,19 @@ const FormHandler: React.FC = () => {
   };
 
   const checkSocials = async (mint: string) => {
-    const url = `https://io.dexscreener.com/dex/pair-details/v3/solana/${mint}`;
-    console.log(url);
+    const url = `http://127.0.0.1:5000/coin-meta/${mint}`;
 
     try {
       const data = await fetch(url).then((data) => data.json());
       if (data) {
         console.log(data);
-        let websites: Website[] = [];
-        let socials: Social[] = [];
+        const websites: Website[] = [];
+        const socials: Social[] = [];
         let status = "No socials found - try again later";
 
         // Loop through websites and socials and populate the arrays
-        data["websites"]?.forEach((site: { url: string }) => {
-          websites.push({
-            url: site["url"],
-          });
+        data["websites"]?.forEach((site: string) => {
+          websites.push({ url: site });
         });
 
         data["socials"]?.forEach((social: { type: string; url: string }) => {
@@ -94,7 +91,6 @@ const FormHandler: React.FC = () => {
           socials,
           status,
         });
-        console.log("socials listed are ??", socialsData);
       }
     } catch (err) {
       console.log(err);
@@ -115,7 +111,7 @@ const FormHandler: React.FC = () => {
       callRugChecker(mint);
       // callBundleChecker(mint);
       // TODO: needs to come from backend for cors
-      // checkSocials(mint);
+      checkSocials(mint);
     } catch (err) {
       console.log(err);
     }
