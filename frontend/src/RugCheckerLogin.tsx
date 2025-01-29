@@ -81,8 +81,8 @@ const RugCheckerLogin = () => {
       <button onClick={authoriseRugCheck} disabled={!publicKey || loading}>
         {loading
           ? "Processing..."
-          : connectedWallet
-          ? "Connected"
+          : publicKey
+          ? "Rug checker Connected"
           : "Connect wallet to use RugChecker"}
       </button>
       <WalletMultiButton />
