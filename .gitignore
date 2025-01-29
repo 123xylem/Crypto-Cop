@@ -52,3 +52,6 @@ tmp_email/
 .tool-versions
 
 TODOS.html
+
+.venv/
+Crypto-Cop.code-workspace
