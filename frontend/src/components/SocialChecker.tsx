@@ -48,6 +48,7 @@ const SocialChecker = ({ mint }: { mint: string }) => {
           <div className={"status-bar " + (sitesFound > 0 ? " green" : "red")}>
             <h3 className="col-subtitle ">{sitesFound} Sites Found</h3>
           </div>
+          <h3 className="col-subtitle">Sites: </h3>
 
           {Object.values(socialsData).map((site) => {
             return (

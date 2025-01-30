@@ -12,8 +12,8 @@ const FormHandler: React.FC = () => {
   const [coinName, setcoinName] = useState("");
   const [hiddenRugLogin, setHiddenRugLogin] = useState<boolean>(true);
 
-  function handlecoinName(data: string) {
-    setcoinName(data);
+  function handlecoinName(data: string): string {
+    setcoinName(() => data);
   }
 
   const hideOnClick = (e: SyntheticEvent) => {
@@ -62,8 +62,8 @@ const FormHandler: React.FC = () => {
           Scan
         </button>
         <div className="login-rug-check" onClick={(e) => hideOnClick(e)}>
-          <small>Hide me</small>
           <RugCheckerLogin />
+          <small>^ Hide me</small>
         </div>
       </form>
       <div className="data-body">
