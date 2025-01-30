@@ -25,37 +25,64 @@ h1 {
   font-size: 2rem;
 }
 
+.form-instructions {
+  font-size: 0.8rem;
+  text-wrap: wrap;
+}
+
+.rug-check-login {
+  align-items: center;
+}
+
+.rug-check-login * {
+  transform: scale(0.8);
+}
+
+button.wallet-adapter-button.wallet-adapter-button-trigger {
+  display: flex;
+  font-size: 0.8rem;
+  line-height: 1.2;
+}
+
 .data-body {
   display: flex;
   flex-wrap: wrap;
+  flex-direction: column;
   max-width: 100%;
   background: black;
   margin: 1rem auto;
   padding: 1rem 2rem;
   justify-content: center;
+  border-radius: 4px;
+  font-family: "Orbitron";
 }
 
 .column {
   display: flex;
   flex-direction: column;
-  /* margin: 0 1rem; */
+  width: 100%;
+}
+
+.column:not(:first-of-type) {
+  margin-top: 1rem;
 }
 
 .col-title {
   /* text-align: left; */
   font-weight: bold;
   font-size: 1.2rem;
-  margin-top: 0;
 }
 
 h3.full-width {
-  width: 100%;
   flex: 1;
-  margin: 1rem auto;
+  margin: 2rem auto;
   text-transform: capitalize;
   min-width: 100%;
   font-size: 1.5rem;
-  font-weight: bold;
+  font-weight: 900;
+  text-decoration: underline;
+  background: blue;
+  width: min-content;
 }
 
 .yellow {
@@ -118,8 +145,15 @@ label {
   .logo {
     max-width: 120px;
   }
+
+  .rug-check-login * {
+    transform: scale(1);
+  }
+
   .column {
     text-align: center;
+    margin-top: 0 !important;
+    width: calc(33.33333% - 1rem);
   }
   h3.full-width {
     text-align: center;

@@ -42,7 +42,7 @@ const FormHandler: React.FC = () => {
   return (
     <>
       <img className="logo" src={logo} alt="Crypto Cop scanner" />
-      <p>
+      <p className="form-instructions">
         Enter SOL Address to scan eg:
         4i3aysdS3yqzxr76K62tFbGXzi4havb1mBk41tdypump{" "}
       </p>
@@ -61,18 +61,18 @@ const FormHandler: React.FC = () => {
         <button className="form-btn" type="submit">
           Scan
         </button>
-        <div className="login-rug-check" onClick={(e) => hideOnClick(e)}>
+        <div className="login-rug-check">
           <RugCheckerLogin />
-          <small>^ Hide me</small>
+          <small onClick={(e) => hideOnClick(e)}>^ Hide me</small>
         </div>
       </form>
       <div className="data-body">
-        {coinName && <h3 className="col-title full-width">Coin: {coinName}</h3>}
         <RugChecker ref={rugCheckerRef} />
         {submitted && (
           <BundleChecker sendCoinName={handlecoinName} mint={mint} />
         )}
         {submitted && <SocialChecker mint={mint} />}
+        {coinName && <h3 className="col-title full-width">Coin: {coinName}</h3>}
       </div>
     </>
   );
