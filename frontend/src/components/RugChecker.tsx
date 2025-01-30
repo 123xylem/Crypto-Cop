@@ -31,7 +31,6 @@ const RugChecker = forwardRef<RugCheckerRef, {}>((_, ref) => {
           return;
         }
         const data: ApiResponse = await response.json();
-        console.log(data, typeof data);
         setResult(data);
         setLoading(false);
       } catch (error) {
@@ -45,27 +44,26 @@ const RugChecker = forwardRef<RugCheckerRef, {}>((_, ref) => {
   return (
     <div className="column">
       <h2 className="col-title">Rug Stats</h2>
-
       {loading && "Loading Rug Data if wallet connected...."}
       {result && (
         <>
           <div
             className={
-              "status-bar " + result.score > "300"
+              "status-bar " +
+              (result.score > "300"
                 ? "yellow"
                 : result.score > "500"
                 ? "red "
-                : " green "
+                : " green ")
             }
           >
             <h3 className="col-subtitle">Score: {result.score}</h3>
           </div>
 
-          <h3>Risks:</h3>
+          <h3 className="col-subtitle">Risks:</h3>
           {result.risks.map((risk, index) => (
             <div key={index}>
-              <p>{risk.name}</p>
-              <p>{risk.description}</p>
+              <strong>{risk.name}</strong> <br /> -{risk.description}
             </div>
           ))}
         </>
