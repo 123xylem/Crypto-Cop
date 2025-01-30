@@ -35,7 +35,10 @@ interface dataFormat {
   held_amount: number;
 }
 
-const BundleChecker: React.FC<{ mint: string }> = ({ mint }) => {
+const BundleChecker: React.FC<{
+  sendCoinName: (name: string) => string;
+  mint: string;
+}> = ({ sendCoinName, mint }) => {
   // const [bundleData, setBundleData] = useState<ApiResponse | null>(null);
   const [formattedData, setFormattedData] = useState<dataFormat | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -43,9 +46,11 @@ const BundleChecker: React.FC<{ mint: string }> = ({ mint }) => {
   useEffect(() => {
     const fetchBundleData = async () => {
       setLoading(true);
+      setFormattedData(null);
       try {
         const url = `${VITE_BUNDLE_URL}${mint}`;
         const data = await fetch(url).then((res) => res.json());
+        sendCoinName(data.ticker);
         formatData(data);
       } catch (err) {
         console.error(err);
@@ -89,26 +94,28 @@ const BundleChecker: React.FC<{ mint: string }> = ({ mint }) => {
 
     const formatedData = {
       creator: creatorData,
-      held_amount: data.total_holding_percentage,
+      held_amount: Math.round(data.total_holding_percentage * 100) / 100,
     };
+
     setFormattedData(formatedData);
   };
 
   return (
     <div className="bundlechecker column">
-      {loading && <p>Loading bundle data...</p>}
-      {formattedData ? (
-        <>
-          <h3 className="col-title">Bundle Stats:</h3>
-          {console.log(formattedData.held_amount, 10)}
+      <h3 className="status-bar col-title">Bundle Stats:</h3>
 
+      {loading ? (
+        <p>Loading bundle data...</p>
+      ) : formattedData ? (
+        <>
           <div
             className={
-              "status-bar " + (formattedData.held_amount < 10)
+              "status-bar " +
+              (formattedData.held_amount < 10
                 ? " green "
                 : formattedData.held_amount < 20
                 ? " yellow "
-                : "red"
+                : "red")
             }
           >
             <h3 className="col-subtitle">

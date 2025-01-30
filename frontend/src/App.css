@@ -1,3 +1,8 @@
+body {
+  margin: 0;
+  display: block;
+}
+
 #root {
   margin: 0 auto;
   padding: 2rem;
@@ -10,27 +15,48 @@
   }
 }
 
+.logo {
+  border-radius: 50%;
+  border: 8px solid black;
+  max-width: 150px;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
 .data-body {
   display: flex;
   flex-wrap: wrap;
   max-width: 100%;
   background: black;
   margin: 1rem auto;
+  padding: 1rem;
+  justify-content: space-between;
 }
 
 .column {
   display: flex;
   flex-direction: column;
-  margin: 1rem;
-  padding: 1rem;
+  /* margin: 0 1rem; */
   text-align: left;
 }
 
 .col-title {
   text-align: left;
   font-weight: bold;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   margin-top: 0;
+}
+
+h3.full-width {
+  width: 100%;
+  flex: 1;
+  margin: 1rem auto;
+  text-transform: capitalize;
+  min-width: 100%;
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
 .yellow {
@@ -47,4 +73,38 @@
 
 .status-bar {
   text-shadow: 0 0 1px black;
+  max-width: 200px !important;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.form-input {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-btn {
+  margin: 0.5rem auto;
+}
+
+.rug-check-login {
+  display: flex;
+  justify-content: center;
+}
+
+@media screen and (min-width: 768px) {
+  .data-body {
+    /* justify-content: space-evenly; */
+  }
+  h3.full-width {
+    text-align: center;
+  }
+  .form-input {
+    flex-direction: row;
+  }
 }
