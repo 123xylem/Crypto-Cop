@@ -2,14 +2,19 @@ from typing import Literal
 from flask import Flask, url_for, jsonify
 from markupsafe import escape
 from flask_cors import CORS
-import requests
+import requests, os
+from dotenv import load_dotenv
+
+ENV = load_dotenv('.env')
+BULLX_COIN_URL = os.getenv('BULLX_COIN_URL')
+DEX_COIN_URL = os.getenv('DEX_COIN_URL')
 
 app = Flask(__name__)
 CORS(app, origins=['http://localhost:5173'])
 
 @app.route("/dex-coin-socials/<coin_id>")
 def get_coin_meta(coin_id) -> dict:
-    url = f'https://io.dexscreener.com/dex/pair-details/v3/solana/{coin_id}'
+    url = DEX_COIN_URL+coin_id
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
     }
@@ -36,8 +41,7 @@ def get_coin_meta(coin_id) -> dict:
 
 @app.route("/pump-coin-socials/<coin_id>")
 def get_coin_socials(coin_id:str) -> dict:
-
-    url = "https://api-neo.bullx.io/v2/api/resolveTokensV2"
+    url = BULLX_COIN_URL
     headers = {
         "accept": "application/json, text/plain, */*",
         "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",

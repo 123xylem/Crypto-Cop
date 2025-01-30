@@ -1,43 +1,75 @@
 import { forwardRef, useImperativeHandle, useState } from "react";
+const RUG_URL = import.meta.env.VITE_RUG_URL;
 
 export interface RugCheckerRef {
   submit: (mint: string) => Promise<void>;
 }
 
-const RugChecker = forwardRef<RugCheckerRef, {}>((_, ref) => {
-  const [result, setResult] = useState<Record<string, unknown>>({});
+interface Risk {
+  name: string;
+  value: string;
+  description: string;
+  score: number;
+}
 
+interface ApiResponse {
+  risks: Risk[];
+  score: string;
+}
+
+const RugChecker = forwardRef<RugCheckerRef, {}>((_, ref) => {
+  const [result, setResult] = useState<ApiResponse | null>(null);
+  const [loading, setLoading] = useState(false);
   useImperativeHandle(ref, () => ({
     submit: async (mint: string) => {
+      setResult(null);
+      setLoading(true);
       try {
-        const response = await fetch(
-          `https://api.rugcheck.xyz/v1/tokens/${mint}/report/summary`
-        );
+        const response = await fetch(`${RUG_URL}${mint}/report/summary`);
         if (!response.ok) {
           console.error("Failed to fetch data:", response.status);
           return;
         }
-        const data = await response.json();
-
+        const data: ApiResponse = await response.json();
+        console.log(data, typeof data);
         setResult(data);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
       }
     },
   }));
 
   return (
-    //todo hide wallet on connection
     <div className="column">
-      {result
-        ? Object.values(result).length > 0 && (
-            <pre>
-              {" "}
-              <h2 className="col-title">Rug Stats</h2>
-              {JSON.stringify(result, null, 2)}
-            </pre> // Pretty print the JSON object
-          )
-        : ""}
+      <h2 className="col-title">Rug Stats</h2>
+
+      {loading && "Loading Rug Data if wallet connected...."}
+      {result && (
+        <>
+          <div
+            className={
+              "status-bar " + result.score > "300"
+                ? "yellow"
+                : result.score > "500"
+                ? "red "
+                : " green "
+            }
+          >
+            <h3 className="col-subtitle">Score: {result.score}</h3>
+          </div>
+
+          <h3>Risks:</h3>
+          {result.risks.map((risk, index) => (
+            <div key={index}>
+              <p>{risk.name}</p>
+              <p>{risk.description}</p>
+            </div>
+          ))}
+        </>
+      )}
     </div>
   );
 });
