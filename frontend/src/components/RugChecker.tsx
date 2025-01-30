@@ -1,4 +1,5 @@
 import { forwardRef, useImperativeHandle, useState } from "react";
+const RUG_URL = import.meta.env.VITE_RUG_URL;
 
 export interface RugCheckerRef {
   submit: (mint: string) => Promise<void>;
@@ -24,9 +25,7 @@ const RugChecker = forwardRef<RugCheckerRef, {}>((_, ref) => {
       setResult(null);
       setLoading(true);
       try {
-        const response = await fetch(
-          `https://api.rugcheck.xyz/v1/tokens/${mint}/report/summary`
-        );
+        const response = await fetch(`${RUG_URL}${mint}/report/summary`);
         if (!response.ok) {
           console.error("Failed to fetch data:", response.status);
           return;

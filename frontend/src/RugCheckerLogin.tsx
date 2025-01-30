@@ -1,6 +1,7 @@
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useState } from "react";
+const RUG_LOGIN = import.meta.env.VITE_RUG_LOGIN;
 
 export interface RugCheckerRef {
   submit: (mint: string) => Promise<void>;
@@ -8,7 +9,7 @@ export interface RugCheckerRef {
 
 const RugCheckerLogin = () => {
   const { publicKey, signMessage } = useWallet();
-  const [connectedWallet, setConnectedWallet] = useState<boolean>(false);
+  // const [connectedWallet, setConnectedWallet] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
   const authoriseRugCheck = async () => {
@@ -46,21 +47,18 @@ const RugCheckerLogin = () => {
       };
 
       // Step 5: Send the request to RugCheck API
-      const response = await fetch(
-        "https://api.rugcheck.xyz/v1/auth/login/solana",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
-      );
+      const response = await fetch(RUG_LOGIN, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
 
       if (response.ok) {
         const data = await response.json();
-        setConnectedWallet(true);
+        // setConnectedWallet(true);
         console.log("Login successful:", data);
         alert("Login successful! Token: " + data.token);
       } else {

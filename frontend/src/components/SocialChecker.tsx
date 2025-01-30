@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const SocialChecker: React.FC<{ mint: string }> = ({ mint }) => {
   const [socialsData, setSocialsData] = useState<[[string], [string]][]>([]);
@@ -9,7 +10,7 @@ const SocialChecker: React.FC<{ mint: string }> = ({ mint }) => {
       setLoading(true);
       try {
         // const dex_url = `http://127.0.0.1:5000/dex-coin-socials/${mint}`;
-        const pump_url = `http://127.0.0.1:5000/pump-coin-socials/${mint}`;
+        const pump_url = `${API_URL}pump-coin-socials/${mint}`;
         const data = await fetch(pump_url).then((res) => res.json());
         const websites: [[string], [string]][] = [];
         data?.forEach((site: string[]) => {

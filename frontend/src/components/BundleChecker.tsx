@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+const VITE_BUNDLE_URL = import.meta.env.VITE_BUNDLE_URL;
 interface PreviousCoin {
   created_at: number;
   is_rug: boolean;
@@ -36,7 +36,7 @@ interface dataFormat {
 }
 
 const BundleChecker: React.FC<{ mint: string }> = ({ mint }) => {
-  const [bundleData, setBundleData] = useState<ApiResponse | null>(null);
+  // const [bundleData, setBundleData] = useState<ApiResponse | null>(null);
   const [formattedData, setFormattedData] = useState<dataFormat | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -44,7 +44,7 @@ const BundleChecker: React.FC<{ mint: string }> = ({ mint }) => {
     const fetchBundleData = async () => {
       setLoading(true);
       try {
-        const url = `https://trench.bot/api/bundle/bundle_advanced/${mint}`;
+        const url = `${VITE_BUNDLE_URL}${mint}`;
         const data = await fetch(url).then((res) => res.json());
         formatData(data);
       } catch (err) {
@@ -124,9 +124,7 @@ const BundleChecker: React.FC<{ mint: string }> = ({ mint }) => {
           ))}
         </>
       ) : (
-        <p>
-          No bundle data available 9YK2fcbvQiaH4HqgSMCj9nSkwnYSTuSEdPxUfmT3pump
-        </p>
+        <p>No bundle data available</p>
       )}
     </div>
   );
