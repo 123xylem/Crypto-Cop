@@ -28,6 +28,7 @@ h1 {
 .form-instructions {
   font-size: 0.8rem;
   text-wrap: wrap;
+  overflow-wrap: break-word;
 }
 
 .rug-check-login {
@@ -61,6 +62,7 @@ button.wallet-adapter-button.wallet-adapter-button-trigger {
   display: flex;
   flex-direction: column;
   width: 100%;
+  overflow-wrap: break-word;
 }
 
 .column:not(:first-of-type) {
@@ -82,6 +84,8 @@ h3.full-width {
   font-weight: 900;
   text-decoration: underline;
   background: blue;
+  border: 2px solid;
+  padding: 7px 0 11px;
   width: min-content;
 }
 
@@ -141,6 +145,7 @@ label {
 @media screen and (min-width: 768px) {
   .data-body {
     justify-content: space-between;
+    flex-direction: row;
   }
   .logo {
     max-width: 120px;
