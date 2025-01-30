@@ -9,12 +9,8 @@ const FormHandler: React.FC = () => {
   const [mint, setMint] = useState<string>("");
   const [submitted, setSubmitted] = useState<boolean>(false);
   const rugCheckerRef = useRef<RugCheckerRef>(null);
-  const [coinName, setcoinName] = useState("");
+  const [coinName, setCoinName] = useState("");
   const [hiddenRugLogin, setHiddenRugLogin] = useState<boolean>(true);
-
-  function handlecoinName(data: string): string {
-    setcoinName(() => data);
-  }
 
   const hideOnClick = (e: SyntheticEvent) => {
     e.preventDefault();
@@ -68,9 +64,7 @@ const FormHandler: React.FC = () => {
       </form>
       <div className="data-body">
         <RugChecker ref={rugCheckerRef} />
-        {submitted && (
-          <BundleChecker sendCoinName={handlecoinName} mint={mint} />
-        )}
+        {submitted && <BundleChecker setCoinName={setCoinName} mint={mint} />}
         {submitted && <SocialChecker mint={mint} />}
         {coinName && <h3 className="col-title full-width">Coin: {coinName}</h3>}
       </div>

@@ -43,7 +43,7 @@ const RugChecker = forwardRef<RugCheckerRef, {}>((_, ref) => {
 
   return (
     <div className="column">
-      <h2 className="col-title">Rug Stats</h2>
+      <h3 className="col-title">Rug Stats</h3>
       {loading && "Loading Rug Data if wallet connected...."}
       {result && (
         <>

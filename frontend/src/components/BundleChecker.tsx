@@ -36,10 +36,9 @@ interface dataFormat {
 }
 
 const BundleChecker: React.FC<{
-  sendCoinName: (name: string) => string;
+  setCoinName: (name: string) => void;
   mint: string;
-}> = ({ sendCoinName, mint }) => {
-  // const [bundleData, setBundleData] = useState<ApiResponse | null>(null);
+}> = ({ setCoinName, mint }) => {
   const [formattedData, setFormattedData] = useState<dataFormat | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -50,7 +49,7 @@ const BundleChecker: React.FC<{
       try {
         const url = `${VITE_BUNDLE_URL}${mint}`;
         const data = await fetch(url).then((res) => res.json());
-        sendCoinName(data.ticker);
+        setCoinName(data.ticker);
         formatData(data);
       } catch (err) {
         console.error(err);
