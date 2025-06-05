@@ -25,7 +25,7 @@
 
 ## 🛠 Tech Stack
 
-- **Backend**: Python (FastAPI)  
+- **Backend**: Python (Flask)  
 - **Frontend**: React (Vite + Tailwind CSS)  
 - **Blockchain Interaction**: Solana APIs & on-chain data  
 - **Hosting**: Currently runs locally; can be deployed to a web server or cloud provider
